@@ -55,4 +55,6 @@ yum install -y --disableexcludes=kubernetes\
 
 systemctl enable --now kubelet
 
-systemctl enable --now kubelet
+echo "Disable Swap"
+sed -i '/swapfile/d' /etc/fstab
+swapoff /swapfile
