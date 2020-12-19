@@ -13,7 +13,12 @@ yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
 
-yum install docker-ce docker-ce-cli containerd.io
+yum install -y \
+  docker-ce \
+  docker-ce-cli \
+  containerd.io
+
+systemctl enable --now docker
 
 echo "Install kubeadm"
 
@@ -43,6 +48,11 @@ EOF
 setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
-yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+yum install -y --disableexcludes=kubernetes\
+  kubelet \
+  kubeadm \
+  kubectl
+
+systemctl enable --now kubelet
 
 systemctl enable --now kubelet
